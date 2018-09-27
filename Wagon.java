@@ -27,14 +27,16 @@ public class Wagon extends Thread {
 
     @Override	
     public void run() {
-        Roller_coaster.log("Vagão iniciando!"); 
+        Roller_coaster.log("Vagão iniciado!"); 
         while (wagonAlive){
             try {
                 Semaphores.wagon.acquire(); 
-                Roller_coaster.log("Vagao iniciando viagem!"); 
+                Roller_coaster.log("Vagão iniciando viagem!"); 
                 Semaphores.mutex.acquire();
                 Roller_coaster.flag++;
+                Semaphores.mutex.release();
                 traveling();
+                Semaphores.mutex.acquire();
                 Roller_coaster.flag--;
                 Semaphores.mutex.release();
                 Roller_coaster.log("Fim da viagem do vagao!");

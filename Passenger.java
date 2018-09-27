@@ -17,7 +17,7 @@ public class Passenger extends Thread{
         return passAlive;
     }
     
-    public void setWagonAlive(boolean alive){
+    public void setPassAlive(boolean alive){
         this.passAlive = alive;
     }
     public void boarding() {
@@ -30,8 +30,13 @@ public class Passenger extends Thread{
         while(System.currentTimeMillis() <= time + (time_landing * 1000)){ }
     }
 
-    public void watching_landscape() {
-        while(Roller_coaster.flag > 0){ }
+    public void watching_landscape() throws InterruptedException {
+        int f = 0;
+        do{
+            Semaphores.mutex.acquire();
+            f = Roller_coaster.flag;
+            Semaphores.mutex.release();
+        } while(f > 0);
     }
 
     public void passenger() throws InterruptedException{
@@ -52,16 +57,16 @@ public class Passenger extends Thread{
                 Semaphores.wagon.acquire();	
             }
             Roller_coaster.log("Passageiro "+ id_pass + " observando paisagem!"); 
-            Semaphores.mutex.acquire();
             watching_landscape();
-            Semaphores.mutex.release();
             Roller_coaster.log("Passageiro "+ id_pass + ": fim da observação"); 
             Semaphores.mutex.acquire();
             Roller_coaster.log("Passageiro "+ id_pass + " desembarcando!"); 
             landing();
             Roller_coaster.log("Passageiro "+ id_pass + " desembarcou!"); 
-            Semaphores.passenger.release();
             Roller_coaster.boarding --;
+            if(Roller_coaster.boarding == 0){
+                Semaphores.passenger.release(Roller_coaster.capacity);
+            }
             Semaphores.mutex.release();		
         }
     }

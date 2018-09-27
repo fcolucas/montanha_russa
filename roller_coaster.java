@@ -33,7 +33,7 @@ public class Roller_coaster extends Application {
     
     static Passenger create_passenger(int time_boarding, int time_landing){
         Passenger p = new Passenger(id_passenger, time_boarding, time_landing);
-        p.setWagonAlive(true);
+        p.setPassAlive(true);
         passengers.add(p);
         id_passenger++;
         return p;
@@ -44,7 +44,7 @@ public class Roller_coaster extends Application {
     }
     
     static void exclude_passenger(Passenger p){
-        p.setWagonAlive(false);
+        p.setPassAlive(false);
         passengers.remove(p);
     }
     
@@ -65,9 +65,9 @@ public class Roller_coaster extends Application {
         capacity = 2;
         Wagon w = create_wagon(capacity, time_travel);
         Semaphores.passenger = new Semaphore(capacity, true);
-        Passenger p1 = create_passenger(2, 2);
-        Passenger p2 = create_passenger(3, 3);
-        Passenger p3 = create_passenger(4, 4);
-        launch(args);
+        Passenger p1 = create_passenger(2, 5);
+        Passenger p2 = create_passenger(3, 4);
+        Passenger p3 = create_passenger(4, 7);
+        //launch(args);
     }
 }
