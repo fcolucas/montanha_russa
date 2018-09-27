@@ -1,4 +1,4 @@
-package montanha_russa;
+package russa_animado;
 
 public class Wagon extends Thread {
 
@@ -27,21 +27,21 @@ public class Wagon extends Thread {
 
     @Override	
     public void run() {
-        roller_coaster.log("Vagão iniciando!"); 
+        Roller_coaster.log("Vagão iniciando!"); 
         while (wagonAlive){
             try {
-                semaphores.wagon.acquire(); 
-                roller_coaster.log("Vagao iniciando viagem!"); 
-                semaphores.mutex.acquire();
-                roller_coaster.flag++;
+                Semaphores.wagon.acquire(); 
+                Roller_coaster.log("Vagao iniciando viagem!"); 
+                Semaphores.mutex.acquire();
+                Roller_coaster.flag++;
                 traveling();
-                roller_coaster.flag--;
-                semaphores.mutex.release();
-                roller_coaster.log("Fim da viagem do vagao!");
+                Roller_coaster.flag--;
+                Semaphores.mutex.release();
+                Roller_coaster.log("Fim da viagem do vagao!");
             } catch(InterruptedException e) {
                 System.out.println("Erro na thread wagon!");
             }
         }
-        roller_coaster.log("Vagão excluido!");
+        Roller_coaster.log("Vagão excluido!");
     }
 }

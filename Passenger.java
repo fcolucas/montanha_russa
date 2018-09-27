@@ -1,4 +1,4 @@
-package montanha_russa;
+package russa_animado;
 
 public class Passenger extends Thread{
     private int id_pass;
@@ -31,46 +31,45 @@ public class Passenger extends Thread{
     }
 
     public void watching_landscape() {
-        while(roller_coaster.flag > 0){ }
+        while(Roller_coaster.flag > 0){ }
     }
 
     public void passenger() throws InterruptedException{
         while(true) {
-            semaphores.passenger.acquire();
-            semaphores.mutex.acquire();
-            roller_coaster.boarding ++;
-            roller_coaster.log("Passageiro "+ id_pass + " embarcando!");
+            Semaphores.passenger.acquire();
+            Semaphores.mutex.acquire();
+            Roller_coaster.boarding ++;
+            Roller_coaster.log("Passageiro "+ id_pass + " embarcando!");
             boarding();
-            roller_coaster.log("Passageiro "+ id_pass + " embarcou!"); 
-            if(roller_coaster.boarding == roller_coaster.capacity) {
-                semaphores.mutex.release();
-                roller_coaster.log("Comeca a viagem"); 
-                semaphores.wagon.release(roller_coaster.capacity);
+            Roller_coaster.log("Passageiro "+ id_pass + " embarcou!"); 
+            if(Roller_coaster.boarding == Roller_coaster.capacity) {
+                Semaphores.mutex.release();
+                Semaphores.wagon.release(Roller_coaster.capacity);
             }
             else {
-                semaphores.mutex.release();
-                roller_coaster.log("Passageiro "+ id_pass +" dormindo no vagão!"); 
-                semaphores.wagon.acquire();	
+                Semaphores.mutex.release();
+                Roller_coaster.log("Passageiro "+ id_pass +" dormindo no vagão!"); 
+                Semaphores.wagon.acquire();	
             }
-            roller_coaster.log("Passageiro "+ id_pass + " observando paisagem!"); 
-            semaphores.mutex.acquire();
+            Roller_coaster.log("Passageiro "+ id_pass + " observando paisagem!"); 
+            Semaphores.mutex.acquire();
             watching_landscape();
-            semaphores.mutex.release();
-            roller_coaster.log("Passageiro "+ id_pass + ": fim da observação"); 
-            semaphores.mutex.acquire();
-            roller_coaster.log("Passageiro "+ id_pass + " desembarcando!"); 
+            Semaphores.mutex.release();
+            Roller_coaster.log("Passageiro "+ id_pass + ": fim da observação"); 
+            Semaphores.mutex.acquire();
+            Roller_coaster.log("Passageiro "+ id_pass + " desembarcando!"); 
             landing();
-            roller_coaster.log("Passageiro "+ id_pass + " desembarcou!"); 
-            semaphores.passenger.release();
-            roller_coaster.boarding --;
-            semaphores.mutex.release();		
+            Roller_coaster.log("Passageiro "+ id_pass + " desembarcou!"); 
+            Semaphores.passenger.release();
+            Roller_coaster.boarding --;
+            Semaphores.mutex.release();		
         }
     }
     @Override
     public void run() {
         while(passAlive == true) {
             try {
-                roller_coaster.log("Passageiro "+ id_pass +" iniciando!"); 
+                Roller_coaster.log("Passageiro "+ id_pass +" iniciando!"); 
                 passenger();
             } catch (InterruptedException e) {
                 System.out.println("Erro na thread passenger");

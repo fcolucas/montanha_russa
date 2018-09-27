@@ -1,23 +1,28 @@
-package montanha_russa;
+package russa_animado;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
-public class roller_coaster {
+public class Roller_coaster extends Application {
     public static int capacity, time_travel, boarding = 0, flag = 0, id_passenger = 0; 
     public static final int CAP_MAXIMA = 5, FILA_MAXIMA = 10;
     static ArrayList<Passenger> passengers = new ArrayList();
 
     public static void log(String s){
         try {
-            semaphores.log.acquire();
+            Semaphores.log.acquire();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         System.out.println("(" + LocalDateTime.now().getHour() + ":" + LocalDateTime.now().getMinute() + ":" + 
         LocalDateTime.now().getSecond() + ") " + s); 
-        semaphores.log.release();
+        Semaphores.log.release();
     }
     
     static Wagon create_wagon(int capacity, int time_travel){
@@ -34,22 +39,35 @@ public class roller_coaster {
         return p;
     }
     
-    void exclude_wagon(Wagon w){
+    static void exclude_wagon(Wagon w){
         w.setWagonAlive(false);
     }
     
-    void exclude_passenger(Passenger p){
+    static void exclude_passenger(Passenger p){
         p.setWagonAlive(false);
         passengers.remove(p);
     }
     
+    @Override
+    public void start(Stage stage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+        //Parent root1 = FXMLLoader.load(getClass().getResource("ant -f \"C:\\\\Users\\\\Juliana Cardoso\\\\Documents\\\\NetBeansProjects\\\\Montanha_russa\" jfxsa-run"));
+        
+        Scene scene = new Scene(root);
+        
+        stage.setScene(scene);
+        stage.show();
+    }
+    
     public static void main(String[] args) {
+        
         time_travel = 15;
         capacity = 2;
         Wagon w = create_wagon(capacity, time_travel);
-        semaphores.passenger = new Semaphore(capacity, true);
+        Semaphores.passenger = new Semaphore(capacity, true);
         Passenger p1 = create_passenger(2, 2);
         Passenger p2 = create_passenger(3, 3);
         Passenger p3 = create_passenger(4, 4);
+        launch(args);
     }
 }
