@@ -51,8 +51,7 @@ public class Roller_coaster extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
-        //Parent root1 = FXMLLoader.load(getClass().getResource("ant -f \"C:\\\\Users\\\\Juliana Cardoso\\\\Documents\\\\NetBeansProjects\\\\Montanha_russa\" jfxsa-run"));
-        
+    
         Scene scene = new Scene(root);
         
         stage.setScene(scene);
